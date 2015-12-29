@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"path"
 	"strings"
 	"time"
 
@@ -15,13 +14,6 @@ import (
 	_ "github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
-
-const SERVER_PUBLIC_PATH = "./web/public"
-
-func publicPath(paths ...string) string {
-	paths = append([]string{SERVER_PUBLIC_PATH}, paths...)
-	return path.Join(paths...)
-}
 
 func Run() error {
 	servers := []*http.Server{
@@ -62,7 +54,7 @@ func recoverWrapper() gin.HandlerFunc {
 
 			err := errors.New("internal error")
 
-			if isDevDomain(c) {
+			if isDevDomain(c.Request.Host) {
 				switch t := r.(type) {
 				case string:
 					err = errors.New(t)
@@ -76,20 +68,6 @@ func recoverWrapper() gin.HandlerFunc {
 
 		c.Next()
 	}
-}
-
-func isDevDomain(c *gin.Context) bool {
-	host := c.Request.Host
-
-	isDevDomain := strings.Index(host, "localhost") == 0 ||
-		strings.Index(host, "dockerhost") == 0 ||
-		strings.Index(host, "test") == 0 ||
-		strings.Index(host, "127.0.") == 0 ||
-		strings.Index(host, "192.168.") == 0 ||
-		strings.Index(host, "10.") == 0 ||
-		strings.Index(host, "176.") == 0
-
-	return isDevDomain
 }
 
 func frontendWrapper() gin.HandlerFunc {
