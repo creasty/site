@@ -1,4 +1,11 @@
 package store
 
-func init() {
+func InitStore() {
+	initDatabase()
+	initRedis()
+}
+
+func Close() {
+	Database.Close()
+	Redis.Close()
 }

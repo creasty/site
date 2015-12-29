@@ -10,12 +10,17 @@ import (
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/creasty/site/api"
-	_ "github.com/creasty/site/store"
+	"github.com/creasty/site/api"
+	"github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
 
 func Run() error {
+	store.InitStore()
+	defer store.Close()
+
+	api.InitApi()
+
 	servers := []*http.Server{
 		newApiServer(fmt.Sprintf("%s:%d", utils.Config.Hostname, utils.Config.Port)),
 	}

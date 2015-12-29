@@ -8,15 +8,19 @@ import (
 )
 
 type ConfigEntry struct {
-	Hostname string
-	Port     uint
-	DevPort  uint
+	Hostname    string
+	Port        uint
+	DevPort     uint
+	DatabaseUrl string
+	RedisUrl    string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
-	Hostname: "",
-	Port:     5000,
-	DevPort:  5001,
+	Hostname:    "",
+	Port:        5000,
+	DevPort:     5001,
+	DatabaseUrl: "",
+	RedisUrl:    "",
 }
 
 func LoadConfig() {
@@ -36,5 +40,13 @@ func LoadConfig() {
 		if iport, err := strconv.Atoi(port); err == nil {
 			Config.DevPort = uint(iport)
 		}
+	}
+
+	if databaseUrl := os.Getenv("DATABASE_URL"); databaseUrl != "" {
+		Config.DatabaseUrl = databaseUrl
+	}
+
+	if redisUrl := os.Getenv("REDIS_URL"); redisUrl != "" {
+		Config.RedisUrl = redisUrl
 	}
 }

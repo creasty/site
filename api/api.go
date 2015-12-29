@@ -4,6 +4,6 @@ var Controller = struct {
 	Ping *PingController
 }{}
 
-func init() {
+func InitApi() {
 	Controller.Ping = NewPingController()
 }
