@@ -17,6 +17,8 @@ import (
 
 func Run() error {
 	store.InitStore()
+	defer store.Close()
+
 	api.InitApi()
 
 	servers := []*http.Server{
