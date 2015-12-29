@@ -1,7 +1,6 @@
 package store
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 
@@ -14,13 +13,13 @@ func initDatabase() {
 	db, err := gorm.Open("postgres", utils.Config.DatabaseUrl)
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	// defer db.Close()
 
 	// health check
 	if err := db.DB().Ping(); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	db.LogMode(true)
