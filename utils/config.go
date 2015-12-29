@@ -8,21 +8,25 @@ import (
 )
 
 type ConfigEntry struct {
-	Env         string
-	Hostname    string
-	Port        uint
-	DevPort     uint
-	DatabaseUrl string
-	RedisUrl    string
+	Env                string
+	Hostname           string
+	Port               uint
+	DevPort            uint
+	DatabaseUrl        string
+	RedisUrl           string
+	GithubClientID     string
+	GithubClientSecret string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
-	Env:         "development",
-	Hostname:    "",
-	Port:        5000,
-	DevPort:     5001,
-	DatabaseUrl: "",
-	RedisUrl:    "",
+	Env:                "development",
+	Hostname:           "",
+	Port:               5000,
+	DevPort:            5001,
+	DatabaseUrl:        "",
+	RedisUrl:           "",
+	GithubClientID:     "",
+	GithubClientSecret: "",
 }
 
 func LoadConfig() {
@@ -54,5 +58,13 @@ func LoadConfig() {
 
 	if redisUrl := os.Getenv("REDIS_URL"); redisUrl != "" {
 		Config.RedisUrl = redisUrl
+	}
+
+	if githubClientID := os.Getenv("GITHUB_CLIENT_ID"); githubClientID != "" {
+		Config.GithubClientID = githubClientID
+	}
+
+	if githubClientSecret := os.Getenv("GITHUB_CLIENT_SECRET"); githubClientSecret != "" {
+		Config.GithubClientSecret = githubClientSecret
 	}
 }
