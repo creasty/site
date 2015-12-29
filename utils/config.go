@@ -12,13 +12,15 @@ type ConfigEntry struct {
 	Port        uint
 	DevPort     uint
 	DatabaseUrl string
+	RedisUrl    string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
 	Hostname:    "",
 	Port:        5000,
 	DevPort:     5001,
-	DatabaseUrl: "postgres://",
+	DatabaseUrl: "",
+	RedisUrl:    "",
 }
 
 func LoadConfig() {
@@ -42,5 +44,9 @@ func LoadConfig() {
 
 	if databaseUrl := os.Getenv("DATABASE_URL"); databaseUrl != "" {
 		Config.DatabaseUrl = databaseUrl
+	}
+
+	if redisUrl := os.Getenv("REDIS_URL"); redisUrl != "" {
+		Config.RedisUrl = redisUrl
 	}
 }
