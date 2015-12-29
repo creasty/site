@@ -19,8 +19,7 @@ $ vi $_
 Build application:
 
 ```sh
-$ go get
-$ go build
+$ make build
 ```
 
 ### Run local server
@@ -28,8 +27,8 @@ $ go build
 Simple run:
 
 ```sh
-$ ./site
-$ ./site --dev  # with development mode enabled (auto compile & restart)
+$ make run
+$ make dev  # with development mode enabled (auto compile & restart)
 ```
 
 
@@ -37,5 +36,5 @@ Heroku
 ------
 
 ```sh
-$ heroku create crst-site -b https://github.com/heroku/heroku-buildpack-multi.git
+$ HEROKU_APP_NAME=foo make heroku-app
 ```
