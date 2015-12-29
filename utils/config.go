@@ -11,12 +11,14 @@ type ConfigEntry struct {
 	Hostname string
 	Port     uint
 	DevPort  uint
+	DBUri    string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
 	Hostname: "",
 	Port:     5000,
 	DevPort:  5001,
+	DBUri:    "postgres://",
 }
 
 func LoadConfig() {
@@ -36,5 +38,9 @@ func LoadConfig() {
 		if iport, err := strconv.Atoi(port); err == nil {
 			Config.DevPort = uint(iport)
 		}
+	}
+
+	if dbUri := os.Getenv("DB_URI"); dbUri != "" {
+		Config.DBUri = dbUri
 	}
 }
