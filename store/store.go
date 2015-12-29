@@ -1,4 +1,4 @@
 package store
 
-func InitStore() {
+func init() {
 }

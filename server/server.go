@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"errors"
@@ -10,14 +10,12 @@ import (
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
 
-	"github.com/creasty/site/api"
-	"github.com/creasty/site/store"
+	_ "github.com/creasty/site/api"
+	_ "github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
 
-func serveApi() error {
-	store.InitStore()
-
+func Run() error {
 	servers := []*http.Server{
 		newApiServer(fmt.Sprintf("%s:%d", utils.Config.Hostname, utils.Config.Port)),
 	}
@@ -29,10 +27,7 @@ func newApiServer(addr string) *http.Server {
 	r := gin.Default()
 	r.Use(recoverWrapper())
 
-	{
-		rr := r.Group("/api")
-		rr.GET("/ping", api.Controller.Ping.Index)
-	}
+	drawRoutes(r)
 
 	return &http.Server{
 		Addr:           addr,

@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/creasty/site/server"
 	"github.com/creasty/site/utils"
 )
 
@@ -25,7 +26,7 @@ func run(devMode bool) {
 	if devMode {
 		runDevServer()
 	} else {
-		if err := serveApi(); err != nil {
+		if err := server.Run(); err != nil {
 			fmt.Println(err)
 			os.Exit(1)
 		}
