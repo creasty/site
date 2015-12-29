@@ -16,6 +16,12 @@ $ cp .env{.sample,}
 $ vi $_
 ```
 
+Create a new Postgres database:
+
+```sh
+$ createdb creasty_site_dev
+```
+
 Build application:
 
 ```sh
