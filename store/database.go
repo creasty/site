@@ -1,6 +1,9 @@
 package store
 
 import (
+	"os"
+	"os/exec"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 
@@ -24,6 +27,8 @@ func initDatabase() {
 	db.LogMode(true)
 
 	Database = &db
+
+	databaseAutoMigrate()
 }
 
 type DatabaseTransactionHandler func(*gorm.DB) error
@@ -46,4 +51,18 @@ func DatabaseWithoutLogging(fn func()) {
 	defer Database.LogMode(true)
 
 	fn()
+}
+
+func databaseAutoMigrate() {
+	cmd := exec.Command(
+		"goose",
+		"-env", utils.Config.Env,
+		"up",
+	)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		panic(err)
+	}
 }

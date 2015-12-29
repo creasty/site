@@ -8,6 +8,7 @@ import (
 )
 
 type ConfigEntry struct {
+	Env         string
 	Hostname    string
 	Port        uint
 	DevPort     uint
@@ -16,6 +17,7 @@ type ConfigEntry struct {
 }
 
 var Config *ConfigEntry = &ConfigEntry{
+	Env:         "development",
 	Hostname:    "",
 	Port:        5000,
 	DevPort:     5001,
@@ -25,6 +27,10 @@ var Config *ConfigEntry = &ConfigEntry{
 
 func LoadConfig() {
 	godotenv.Load()
+
+	if serverEnv := os.Getenv("SERVER_ENV"); serverEnv != "" {
+		Config.Env = serverEnv
+	}
 
 	if hostname := os.Getenv("SERVER_HOST"); hostname != "" {
 		Config.Hostname = hostname
