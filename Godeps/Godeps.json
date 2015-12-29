@@ -3,6 +3,11 @@
 	"GoVersion": "go1.5.2",
 	"Deps": [
 		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.8.2-20-gab7e46e",
+			"Rev": "ab7e46ea22bd379e660230844f96d20f1dabc21a"
+		},
+		{
 			"ImportPath": "github.com/facebookgo/clock",
 			"Rev": "600d898af40aa09a7a93ecb9265d87b0504b6f03"
 		},
@@ -23,14 +28,31 @@
 			"Rev": "31fb71caf5a4f04c9f8bb3fa8e7c2597ba6eb50a"
 		},
 		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Rev": "9c474d0715937065f7e5b9f8d724a72ba55763e7"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Rev": "9c474d0715937065f7e5b9f8d724a72ba55763e7"
+		},
+		{
 			"ImportPath": "github.com/gin-gonic/gin",
 			"Comment": "v1.0rc1-120-g13b8867",
 			"Rev": "13b88673a2a04f54695be86d9070645168eece94"
 		},
 		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "5663048f137b961f9b1bac6a10227096aa36b0bf"
+		},
+		{
 			"ImportPath": "github.com/joho/godotenv",
 			"Comment": "v1-8-g443e926",
 			"Rev": "443e926da0d793d3b3f32118b1e4ba52ada26503"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-56-gdc50b6a",
+			"Rev": "dc50b6ad2d3ee836442cf3389009c7cd1e64bb43"
 		},
 		{
 			"ImportPath": "github.com/manucorporat/sse",
