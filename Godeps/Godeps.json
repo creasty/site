@@ -41,6 +41,14 @@
 			"Rev": "13b88673a2a04f54695be86d9070645168eece94"
 		},
 		{
+			"ImportPath": "github.com/google/go-github/github",
+			"Rev": "44b1ede22d71e26fa5d7af7a50204f7e6daadfc8"
+		},
+		{
+			"ImportPath": "github.com/google/go-querystring/query",
+			"Rev": "2a60fc2ba6c19de80291203597d752e9ba58e4c0"
+		},
+		{
 			"ImportPath": "github.com/jinzhu/gorm",
 			"Rev": "5663048f137b961f9b1bac6a10227096aa36b0bf"
 		},
@@ -65,6 +73,10 @@
 		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "d9558e5c97f85372afee28cf2b6059d7d3818919"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "2baa8a1b9338cf13d9eeb27696d761155fa480be"
 		},
 		{
 			"ImportPath": "gopkg.in/bluesuncorp/validator.v5",
