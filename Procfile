@@ -1,1 +1,1 @@
-web: avatar
+web: site
