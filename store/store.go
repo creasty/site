@@ -1,5 +1,5 @@
 package store
 
-func init() {
+func InitStore() {
 	initDatabase()
 }
