@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"path"
 	"strings"
 	"time"
 
@@ -14,6 +15,13 @@ import (
 	_ "github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
+
+const SERVER_PUBLIC_PATH = "./web/public"
+
+func publicPath(paths ...string) string {
+	paths = append([]string{SERVER_PUBLIC_PATH}, paths...)
+	return path.Join(paths...)
+}
 
 func Run() error {
 	servers := []*http.Server{
@@ -26,6 +34,11 @@ func Run() error {
 func newApiServer(addr string) *http.Server {
 	r := gin.Default()
 	r.Use(recoverWrapper())
+	r.Use(frontendWrapper())
+
+	r.Static("/assets", publicPath("assets"))
+	r.StaticFile("/favicon.ico", publicPath("favicon.ico"))
+	r.StaticFile("/pinterest-f590c.html", publicPath("pinterest-f590c.html"))
 
 	drawRoutes(r)
 
@@ -77,4 +90,25 @@ func isDevDomain(c *gin.Context) bool {
 		strings.Index(host, "176.") == 0
 
 	return isDevDomain
+}
+
+func frontendWrapper() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+
+		if !strings.Contains(c.HandlerName(), "server.frontendWrapper") {
+			return
+		}
+		if c.Request.Method != "GET" && c.Request.Method != "HEAD" {
+			return
+		}
+		if strings.HasPrefix(c.Request.URL.Path+"/", "/api/") {
+			return
+		}
+		if strings.HasPrefix(c.Request.URL.Path+"/", "/assets/") {
+			return
+		}
+
+		c.File(publicPath("index.html"))
+	}
 }
