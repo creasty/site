@@ -8,17 +8,17 @@ import (
 )
 
 type ConfigEntry struct {
-	Hostname string
-	Port     uint
-	DevPort  uint
-	DBUri    string
+	Hostname    string
+	Port        uint
+	DevPort     uint
+	DatabaseUrl string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
-	Hostname: "",
-	Port:     5000,
-	DevPort:  5001,
-	DBUri:    "postgres://",
+	Hostname:    "",
+	Port:        5000,
+	DevPort:     5001,
+	DatabaseUrl: "postgres://",
 }
 
 func LoadConfig() {
@@ -40,7 +40,7 @@ func LoadConfig() {
 		}
 	}
 
-	if dbUri := os.Getenv("DB_URI"); dbUri != "" {
-		Config.DBUri = dbUri
+	if databaseUrl := os.Getenv("DATABASE_URL"); databaseUrl != "" {
+		Config.DatabaseUrl = databaseUrl
 	}
 }
