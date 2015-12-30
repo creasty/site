@@ -12,6 +12,7 @@ import (
 	"github.com/rs/cors"
 
 	"github.com/creasty/site/api"
+	"github.com/creasty/site/model"
 	"github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
@@ -115,26 +116,47 @@ func corsWrapper() gin.HandlerFunc {
 	}
 }
 
-func requireAuth(fn gin.HandlerFunc) gin.HandlerFunc {
+func authWrapper() gin.HandlerFunc {
 	r := regexp.MustCompile(`^Token\s+token=(?:["']?)([^"]+)(?:["']?)$`)
 
 	return func(c *gin.Context) {
-		if h := c.Request.Header.Get("Authorization"); h != "" {
-			m := r.FindStringSubmatch(h)
-			if len(m) != 2 {
-				c.AbortWithStatus(http.StatusUnauthorized)
-				return
-			}
-
-			user, err := store.NewUserStore().FindByGithubToken(m[1])
-			if err != nil {
-				c.AbortWithStatus(http.StatusUnauthorized)
-				return
-			}
-
-			c.Set("currentUser", user)
+		h := c.Request.Header.Get("Authorization")
+		if h == "" {
+			c.Next()
+			return
 		}
 
-		fn(c)
+		m := r.FindStringSubmatch(h)
+		if len(m) != 2 {
+			c.Next()
+			return
+		}
+
+		user, err := store.NewUserStore().FindByGithubToken(m[1])
+		if err != nil {
+			c.Next()
+			return
+		}
+
+		c.Set("currentUser", user)
+		c.Next()
+	}
+}
+
+func requireAuth(fn func(*gin.Context, *model.User)) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		v, exist := c.Get("currentUser")
+		if !exist {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		user, ok := v.(*model.User)
+		if !ok {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		fn(c, user)
 	}
 }

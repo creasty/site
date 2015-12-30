@@ -16,7 +16,6 @@ func NewMeController() *MeController {
 	return &MeController{NewAppController()}
 }
 
-func (self *MeController) Show(c *gin.Context) {
-	user := c.MustGet("currentUser").(*model.User)
-	c.JSON(http.StatusOK, user)
+func (self *MeController) Show(c *gin.Context, u *model.User) {
+	c.JSON(http.StatusOK, u)
 }

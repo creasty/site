@@ -15,6 +15,7 @@ func drawRoutes(r *gin.Engine) {
 
 	{
 		r := r.Group("/api")
+		r.Use(authWrapper())
 
 		r.GET("/ping", api.Controller.Ping.Index)
 
