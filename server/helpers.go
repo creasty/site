@@ -23,3 +23,7 @@ func isDevDomain(host string) bool {
 
 	return isDevDomain
 }
+
+func isUnderPath(path, base string) bool {
+	return strings.HasPrefix(path+"/", base+"/")
+}

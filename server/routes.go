@@ -7,9 +7,15 @@ import (
 )
 
 func drawRoutes(r *gin.Engine) {
-	drawApiRoutes(r.Group("/api"))
-}
+	{
+		r.Static("/assets", publicPath("assets"))
+		r.StaticFile("/favicon.ico", publicPath("favicon.ico"))
+		r.StaticFile("/pinterest-f590c.html", publicPath("pinterest-f590c.html"))
+	}
 
-func drawApiRoutes(r *gin.RouterGroup) {
-	r.GET("/ping", api.Controller.Ping.Index)
+	{
+		r := r.Group("/api")
+
+		r.GET("/ping", api.Controller.Ping.Index)
+	}
 }
