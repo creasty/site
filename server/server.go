@@ -9,6 +9,7 @@ import (
 
 	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/cors"
 
 	"github.com/creasty/site/api"
 	"github.com/creasty/site/store"
@@ -39,9 +40,14 @@ func newApiServer(addr string) *http.Server {
 
 	drawRoutes(r)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   utils.Config.CorsOrigins,
+		AllowCredentials: true,
+	})
+
 	return &http.Server{
 		Addr:           addr,
-		Handler:        r,
+		Handler:        c.Handler(r),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
