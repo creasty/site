@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/exec"
 
+	"bitbucket.org/liamstask/goose/lib/goose"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 
@@ -54,15 +55,17 @@ func DatabaseWithoutLogging(fn func()) {
 }
 
 func databaseAutoMigrate() {
-	cmd := exec.Command(
-		"goose",
-		"-env", utils.Config.Env,
-		"up",
-	)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	conf, err := goose.NewDBConf("db", utils.Config.Env, "postgres")
+	if err != nil {
+		panic(err)
+	}
 
-	if err := cmd.Run(); err != nil {
+	target, err := goose.GetMostRecentDBVersion(conf.MigrationsDir)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := goose.RunMigrations(conf, conf.MigrationsDir, target); err != nil {
 		panic(err)
 	}
 }
