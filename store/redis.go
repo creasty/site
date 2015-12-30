@@ -6,7 +6,19 @@ import (
 	"github.com/creasty/site/utils"
 )
 
-var Redis redis.Conn
+type RedisClient struct {
+	redis.Conn
+}
+
+var Redis *RedisClient
+
+func (self *RedisClient) Get(key string) (interface{}, error) {
+	return self.Do("GET", key)
+}
+
+func (self *RedisClient) Set(key string, value interface{}) error {
+	return self.Send("SET", key, value)
+}
 
 func initRedis() {
 	c, err := redis.Dial("tcp", utils.Config.RedisUrl)
@@ -14,5 +26,5 @@ func initRedis() {
 		panic(err)
 	}
 
-	Redis = c
+	Redis = &RedisClient{c}
 }
