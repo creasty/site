@@ -1,9 +1,6 @@
 package store
 
 import (
-	"os"
-	"os/exec"
-
 	"bitbucket.org/liamstask/goose/lib/goose"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
