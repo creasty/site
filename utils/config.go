@@ -9,23 +9,27 @@ import (
 )
 
 type ConfigEntry struct {
-	Env         string
-	Hostname    string
-	Port        uint
-	DevPort     uint
-	DatabaseUrl string
-	RedisUrl    string
-	CorsOrigins []string
+	Env                string
+	Hostname           string
+	Port               uint
+	DevPort            uint
+	DatabaseUrl        string
+	RedisUrl           string
+	CorsOrigins        []string
+	GithubClientID     string
+	GithubClientSecret string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
-	Env:         "development",
-	Hostname:    "",
-	Port:        5000,
-	DevPort:     5001,
-	DatabaseUrl: "",
-	RedisUrl:    "",
-	CorsOrigins: []string{},
+	Env:                "development",
+	Hostname:           "",
+	Port:               5000,
+	DevPort:            5001,
+	DatabaseUrl:        "",
+	RedisUrl:           "",
+	CorsOrigins:        []string{},
+	GithubClientID:     "",
+	GithubClientSecret: "",
 }
 
 func LoadConfig() {
@@ -61,5 +65,13 @@ func LoadConfig() {
 
 	if corsOrigins := os.Getenv("CORS_ORIGINS"); corsOrigins != "" {
 		Config.CorsOrigins = strings.Split(corsOrigins, ",")
+	}
+
+	if githubClientID := os.Getenv("GITHUB_CLIENT_ID"); githubClientID != "" {
+		Config.GithubClientID = githubClientID
+	}
+
+	if githubClientSecret := os.Getenv("GITHUB_CLIENT_SECRET"); githubClientSecret != "" {
+		Config.GithubClientSecret = githubClientSecret
 	}
 }

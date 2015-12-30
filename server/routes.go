@@ -15,7 +15,13 @@ func drawRoutes(r *gin.Engine) {
 
 	{
 		r := r.Group("/api")
+		r.Use(authWrapper())
 
 		r.GET("/ping", api.Controller.Ping.Index)
+
+		r.GET("/auth/url", api.Controller.Auth.GetAuthCodeUrl)
+		r.POST("/auth/exchange", api.Controller.Auth.Exchange)
+
+		r.GET("/me", requireAuth(api.Controller.Me.Show))
 	}
 }
