@@ -14,7 +14,7 @@ type GithubAuthenticator struct {
 }
 
 func (self *GithubAuthenticator) AuthCodeURL() string {
-	return self.conf.AuthCodeURL("state", oauth2.AccessTypeOffline)
+	return self.conf.AuthCodeURL("state", oauth2.AccessTypeOnline)
 }
 
 func (self *GithubAuthenticator) Exchange(token string) (*oauth2.Token, error) {
