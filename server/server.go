@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
@@ -11,6 +12,7 @@ import (
 	"github.com/rs/cors"
 
 	"github.com/creasty/site/api"
+	"github.com/creasty/site/model"
 	"github.com/creasty/site/store"
 	"github.com/creasty/site/utils"
 )
@@ -111,5 +113,50 @@ func corsWrapper() gin.HandlerFunc {
 
 		mw.HandlerFunc(c.Writer, c.Request)
 		c.AbortWithStatus(http.StatusOK)
+	}
+}
+
+func authWrapper() gin.HandlerFunc {
+	r := regexp.MustCompile(`^Token\s+token=(?:["']?)([^"]+)(?:["']?)$`)
+
+	return func(c *gin.Context) {
+		h := c.Request.Header.Get("Authorization")
+		if h == "" {
+			c.Next()
+			return
+		}
+
+		m := r.FindStringSubmatch(h)
+		if len(m) != 2 {
+			c.Next()
+			return
+		}
+
+		user, err := store.NewUserStore().FindByGithubToken(m[1])
+		if err != nil {
+			c.Next()
+			return
+		}
+
+		c.Set("currentUser", user)
+		c.Next()
+	}
+}
+
+func requireAuth(fn func(*gin.Context, *model.User)) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		v, exist := c.Get("currentUser")
+		if !exist {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		user, ok := v.(*model.User)
+		if !ok {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+
+		fn(c, user)
 	}
 }
