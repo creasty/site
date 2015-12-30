@@ -17,11 +17,11 @@ func NewAuthController() *AuthController {
 }
 
 func (self *AuthController) Show(c *gin.Context) {
-	client := store.NewGithubUserClient(c.Query("token"))
-	if _, err := client.User(); err != nil {
-		c.AbortWithError(http.StatusUnauthorized, err)
+	user, err := store.NewUserStore().FindByGithubToken(c.Query("token"))
+	if err == nil {
+		c.JSON(http.StatusOK, user)
 	} else {
-		c.AbortWithStatus(http.StatusOK)
+		c.AbortWithError(http.StatusUnauthorized, err)
 	}
 }
 

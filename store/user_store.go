@@ -10,10 +10,15 @@ func NewUserStore() *UserStore {
 	return &UserStore{}
 }
 
-func (self *UserStore) FindByGithubToken(token string) (*model.User, error) {
-	client := store.NewGithubUserClient(c.Query("token"))
-	if _, err := client.User(); err != nil {
+func (self *UserStore) FindByGithubToken(token string) (user *model.User, err error) {
+	user = &model.User{}
+
+	client := NewGithubUserClient(token)
+	ghUser, err := client.User()
+	if err != nil {
+		return
 	}
 
-	return nil, nil
+	err = Database.Find(&user, model.User{Github: *ghUser.Login}).Error
+	return
 }
