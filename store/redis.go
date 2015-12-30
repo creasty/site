@@ -38,7 +38,7 @@ func (self *RedisClient) SetWithExpiration(key string, value interface{}, expira
 }
 
 func initRedis() {
-	c, err := redis.Dial("tcp", utils.Config.RedisUrl)
+	c, err := redis.DialURL(utils.Config.RedisUrl)
 	if err != nil {
 		panic(err)
 	}
