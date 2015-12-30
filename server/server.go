@@ -74,8 +74,6 @@ func recoverWrapper() gin.HandlerFunc {
 
 func frontendWrapper() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Next()
-
 		if c.Request.Method != "GET" && c.Request.Method != "HEAD" {
 			return
 		}
@@ -99,8 +97,6 @@ func corsWrapper() gin.HandlerFunc {
 	})
 
 	return func(c *gin.Context) {
-		c.Next()
-
 		if !isUnderPath(c.Request.URL.Path, "/api") {
 			return
 		}
