@@ -2,6 +2,7 @@ package store
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/garyburd/redigo/redis"
 
@@ -34,7 +35,7 @@ func (self *UserStore) FindByGithubToken(token string) (user *model.User, err er
 		return
 	}
 
-	err = Redis.Set(key, user.ID)
+	err = Redis.SetWithExpiration(key, user.ID, 90*time.Minute)
 
 	return
 }
