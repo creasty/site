@@ -3,6 +3,7 @@ package utils
 import (
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -14,6 +15,7 @@ type ConfigEntry struct {
 	DevPort     uint
 	DatabaseUrl string
 	RedisUrl    string
+	CorsOrigins []string
 }
 
 var Config *ConfigEntry = &ConfigEntry{
@@ -23,6 +25,7 @@ var Config *ConfigEntry = &ConfigEntry{
 	DevPort:     5001,
 	DatabaseUrl: "",
 	RedisUrl:    "",
+	CorsOrigins: []string{},
 }
 
 func LoadConfig() {
@@ -54,5 +57,9 @@ func LoadConfig() {
 
 	if redisUrl := os.Getenv("REDIS_URL"); redisUrl != "" {
 		Config.RedisUrl = redisUrl
+	}
+
+	if corsOrigins := os.Getenv("CORS_ORIGINS"); corsOrigins != "" {
+		Config.CorsOrigins = strings.Split(corsOrigins, ",")
 	}
 }
