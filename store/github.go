@@ -3,35 +3,16 @@ package store
 import (
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/clientcredentials"
 	oauth2github "golang.org/x/oauth2/github"
 
 	"github.com/creasty/site/utils"
 )
 
-type GithubAuthenticator struct {
+type GithubApplicationClient struct {
 	conf *oauth2.Config
 }
 
-func (self *GithubAuthenticator) AuthCodeURL() string {
-	return self.conf.AuthCodeURL("state", oauth2.AccessTypeOnline)
-}
-
-func (self *GithubAuthenticator) Exchange(token string) (*oauth2.Token, error) {
-	return self.conf.Exchange(oauth2.NoContext, token)
-}
-
-func NewGithubClient() *github.Client {
-	conf := &clientcredentials.Config{
-		ClientID:     utils.Config.GithubClientID,
-		ClientSecret: utils.Config.GithubClientSecret,
-		Scopes:       []string{},
-	}
-
-	return github.NewClient(conf.Client(oauth2.NoContext))
-}
-
-func NewGithubClientAuthenticator() *GithubAuthenticator {
+func NewGithubApplicationClient() *GithubApplicationClient {
 	conf := &oauth2.Config{
 		ClientID:     utils.Config.GithubClientID,
 		ClientSecret: utils.Config.GithubClientSecret,
@@ -39,13 +20,44 @@ func NewGithubClientAuthenticator() *GithubAuthenticator {
 		Endpoint:     oauth2github.Endpoint,
 	}
 
-	return &GithubAuthenticator{conf}
+	return &GithubApplicationClient{conf}
 }
 
-func NewUserGithubClient(token string) *github.Client {
+func (self *GithubApplicationClient) AuthCodeURL() string {
+	return self.conf.AuthCodeURL("state", oauth2.AccessTypeOnline)
+}
+
+func (self *GithubApplicationClient) Exchange(token string) (*oauth2.Token, error) {
+	return self.conf.Exchange(oauth2.NoContext, token)
+}
+
+type GithubUserClient struct {
+	*github.Client
+}
+
+func NewGithubUserClient(token string) *GithubUserClient {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
 	)
 
-	return github.NewClient(oauth2.NewClient(oauth2.NoContext, ts))
+	client := github.NewClient(oauth2.NewClient(oauth2.NoContext, ts))
+
+	return &GithubUserClient{client}
+}
+
+func (self *GithubUserClient) User() (user *github.User, err error) {
+	user = &github.User{}
+
+	req, err := self.Client.NewRequest("GET", "/user", nil)
+	if err != nil {
+		return
+	}
+
+	res, err := self.Client.Do(req, user)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+
+	return
 }

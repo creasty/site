@@ -16,8 +16,17 @@ func NewAuthController() *AuthController {
 	return &AuthController{NewAppController()}
 }
 
+func (self *AuthController) Show(c *gin.Context) {
+	client := store.NewGithubUserClient(c.Query("token"))
+	if _, err := client.User(); err != nil {
+		c.AbortWithError(http.StatusUnauthorized, err)
+	} else {
+		c.AbortWithStatus(http.StatusOK)
+	}
+}
+
 func (self *AuthController) GetAuthCodeUrl(c *gin.Context) {
-	url := store.NewGithubClientAuthenticator().AuthCodeURL()
+	url := store.NewGithubApplicationClient().AuthCodeURL()
 	c.JSON(http.StatusOK, gin.H{"url": url})
 }
 
@@ -28,7 +37,7 @@ func (self *AuthController) Exchange(c *gin.Context) {
 		return
 	}
 
-	t, err := store.NewGithubClientAuthenticator().Exchange(authCode)
+	t, err := store.NewGithubApplicationClient().Exchange(authCode)
 	if err != nil || !t.Valid() {
 		c.AbortWithStatus(http.StatusForbidden)
 		return
