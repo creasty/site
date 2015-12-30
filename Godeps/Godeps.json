@@ -3,6 +3,10 @@
 	"GoVersion": "go1.5.2",
 	"Deps": [
 		{
+			"ImportPath": "bitbucket.org/liamstask/goose/lib/goose",
+			"Rev": "8488cc47d90c8a502b1c41a462a6d9cc8ee0a895"
+		},
+		{
 			"ImportPath": "github.com/Sirupsen/logrus",
 			"Comment": "v0.8.2-20-gab7e46e",
 			"Rev": "ab7e46ea22bd379e660230844f96d20f1dabc21a"
@@ -41,6 +45,11 @@
 			"Rev": "13b88673a2a04f54695be86d9070645168eece94"
 		},
 		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-119-g527bcd5",
+			"Rev": "527bcd55aab2e53314f1a150922560174b493034"
+		},
+		{
 			"ImportPath": "github.com/google/go-github/github",
 			"Rev": "44b1ede22d71e26fa5d7af7a50204f7e6daadfc8"
 		},
@@ -58,6 +67,11 @@
 			"Rev": "443e926da0d793d3b3f32118b1e4ba52ada26503"
 		},
 		{
+			"ImportPath": "github.com/kylelemons/go-gypsy/yaml",
+			"Comment": "go.weekly.2011-11-02-19-g42fc2c7",
+			"Rev": "42fc2c7ee9b8bd0ff636cd2d7a8c0a49491044c5"
+		},
+		{
 			"ImportPath": "github.com/lib/pq",
 			"Comment": "go1.0-cutoff-56-gdc50b6a",
 			"Rev": "dc50b6ad2d3ee836442cf3389009c7cd1e64bb43"
@@ -71,12 +85,31 @@
 			"Rev": "40e4aedc8fabf8c23e040057540867186712faa5"
 		},
 		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Rev": "b4142c444a8941d0d92b0b7103a24df9cd815e42"
+		},
+		{
 			"ImportPath": "github.com/rs/cors",
 			"Rev": "ceb1fbf238d7711a11a86a2622d0b85305348aeb"
 		},
 		{
 			"ImportPath": "github.com/rs/xhandler",
 			"Rev": "d9d9599b6aaf6a058cb7b1f48291ded2cbd13390"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/godrv",
+			"Comment": "v1.5.4-13-g75ce5fb",
+			"Rev": "75ce5fbba34b1912a3641adbd58cf317d7315821"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/mysql",
+			"Comment": "v1.5.4-13-g75ce5fb",
+			"Rev": "75ce5fbba34b1912a3641adbd58cf317d7315821"
+		},
+		{
+			"ImportPath": "github.com/ziutek/mymysql/native",
+			"Comment": "v1.5.4-13-g75ce5fb",
+			"Rev": "75ce5fbba34b1912a3641adbd58cf317d7315821"
 		},
 		{
 			"ImportPath": "golang.org/x/net/context",
