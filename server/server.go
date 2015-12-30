@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"regexp"
 	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
@@ -111,5 +112,29 @@ func corsWrapper() gin.HandlerFunc {
 
 		mw.HandlerFunc(c.Writer, c.Request)
 		c.AbortWithStatus(http.StatusOK)
+	}
+}
+
+func requireAuth(fn gin.HandlerFunc) gin.HandlerFunc {
+	r := regexp.MustCompile(`^Token\s+token=(?:["']?)([^"]+)(?:["']?)$`)
+
+	return func(c *gin.Context) {
+		if h := c.Request.Header.Get("Authorization"); h != "" {
+			m := r.FindStringSubmatch(h)
+			if len(m) != 2 {
+				c.AbortWithStatus(http.StatusUnauthorized)
+				return
+			}
+
+			user, err := store.NewUserStore().FindByGithubToken(m[1])
+			if err != nil {
+				c.AbortWithStatus(http.StatusUnauthorized)
+				return
+			}
+
+			c.Set("currentUser", user)
+		}
+
+		fn(c)
 	}
 }
