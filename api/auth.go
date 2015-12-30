@@ -16,15 +16,6 @@ func NewAuthController() *AuthController {
 	return &AuthController{NewAppController()}
 }
 
-func (self *AuthController) Show(c *gin.Context) {
-	user, err := store.NewUserStore().FindByGithubToken(c.Query("token"))
-	if err == nil {
-		c.JSON(http.StatusOK, user)
-	} else {
-		c.AbortWithError(http.StatusUnauthorized, err)
-	}
-}
-
 func (self *AuthController) GetAuthCodeUrl(c *gin.Context) {
 	url := store.NewGithubApplicationClient().AuthCodeURL()
 	c.JSON(http.StatusOK, gin.H{"url": url})
