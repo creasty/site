@@ -3,6 +3,7 @@ package utils
 import (
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -14,6 +15,7 @@ type ConfigEntry struct {
 	DevPort            uint
 	DatabaseUrl        string
 	RedisUrl           string
+	CorsOrigins        []string
 	GithubClientID     string
 	GithubClientSecret string
 }
@@ -25,6 +27,7 @@ var Config *ConfigEntry = &ConfigEntry{
 	DevPort:            5001,
 	DatabaseUrl:        "",
 	RedisUrl:           "",
+	CorsOrigins:        []string{},
 	GithubClientID:     "",
 	GithubClientSecret: "",
 }
@@ -58,6 +61,10 @@ func LoadConfig() {
 
 	if redisUrl := os.Getenv("REDIS_URL"); redisUrl != "" {
 		Config.RedisUrl = redisUrl
+	}
+
+	if corsOrigins := os.Getenv("CORS_ORIGINS"); corsOrigins != "" {
+		Config.CorsOrigins = strings.Split(corsOrigins, ",")
 	}
 
 	if githubClientID := os.Getenv("GITHUB_CLIENT_ID"); githubClientID != "" {
