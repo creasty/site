@@ -52,7 +52,7 @@ func DatabaseWithoutLogging(fn func()) {
 }
 
 func databaseAutoMigrate() {
-	conf, err := goose.NewDBConf("db", utils.Config.Env, "postgres")
+	conf, err := goose.NewDBConf("db", utils.Config.Env, "")
 	if err != nil {
 		panic(err)
 	}
