@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/facebookgo/grace/gracehttp"
@@ -77,9 +76,6 @@ func frontendWrapper() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 
-		if !strings.Contains(c.HandlerName(), "server.frontendWrapper") {
-			return
-		}
 		if c.Request.Method != "GET" && c.Request.Method != "HEAD" {
 			return
 		}
@@ -108,11 +104,11 @@ func corsWrapper() gin.HandlerFunc {
 		if !isUnderPath(c.Request.URL.Path, "/api") {
 			return
 		}
+		if c.Request.Method != "OPTIONS" {
+			return
+		}
 
 		mw.HandlerFunc(c.Writer, c.Request)
-
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusOK)
-		}
+		c.AbortWithStatus(http.StatusOK)
 	}
 }
