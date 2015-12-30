@@ -33,21 +33,13 @@ func newApiServer(addr string) *http.Server {
 	r := gin.Default()
 	r.Use(recoverWrapper())
 	r.Use(frontendWrapper())
-
-	r.Static("/assets", publicPath("assets"))
-	r.StaticFile("/favicon.ico", publicPath("favicon.ico"))
-	r.StaticFile("/pinterest-f590c.html", publicPath("pinterest-f590c.html"))
+	r.Use(corsWrapper())
 
 	drawRoutes(r)
 
-	c := cors.New(cors.Options{
-		AllowedOrigins:   utils.Config.CorsOrigins,
-		AllowCredentials: true,
-	})
-
 	return &http.Server{
 		Addr:           addr,
-		Handler:        c.Handler(r),
+		Handler:        r,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
@@ -91,13 +83,36 @@ func frontendWrapper() gin.HandlerFunc {
 		if c.Request.Method != "GET" && c.Request.Method != "HEAD" {
 			return
 		}
-		if strings.HasPrefix(c.Request.URL.Path+"/", "/api/") {
+		if isUnderPath(c.Request.URL.Path, "/api") {
 			return
 		}
-		if strings.HasPrefix(c.Request.URL.Path+"/", "/assets/") {
+		if isUnderPath(c.Request.URL.Path, "/assets") {
 			return
 		}
 
 		c.File(publicPath("index.html"))
+	}
+}
+
+func corsWrapper() gin.HandlerFunc {
+	mw := cors.New(cors.Options{
+		AllowedOrigins:   utils.Config.CorsOrigins,
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		Debug:            false,
+	})
+
+	return func(c *gin.Context) {
+		c.Next()
+
+		if !isUnderPath(c.Request.URL.Path, "/api") {
+			return
+		}
+
+		mw.HandlerFunc(c.Writer, c.Request)
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusOK)
+		}
 	}
 }
