@@ -7,10 +7,10 @@ const DEV_SERVER = 'http://localhost:9100';
 
 module.exports = {
   devtool: 'eval',
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(__dirname, '../src'),
   entry: [
     'webpack-dev-server/client?' + DEV_SERVER,
-    'src/main.js',
+    'main.js',
   ],
   resolve: {
     extensions: ['', '.js', 'index.js'],
@@ -26,7 +26,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/index.html',
+      template: 'index.html',
       inject: true,
       nodeEnv: process.env.NODE_ENV,
     }),
