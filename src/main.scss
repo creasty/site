@@ -1,0 +1,325 @@
+/*=== Reset
+==============================================================================================*/
+html, body, div, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, span, a, em, strong, i, b,
+sub, sup, blockquote, q, pre, code, abbr, acronym,
+address, big, small, cite, del, dfn, img, ins, kbd,
+s, samp, strike, tt, var, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+article, aside, details, embed, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+command, datalist, keygen, mark, meter,
+progress, rp, rt, ruby, time, wbr {
+  display: inline;
+}
+video, audio, canvas {
+  display: inline-block;
+  zoom: 1;
+}
+
+html {
+  line-height: 1;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+}
+
+img {
+  vertical-align: bottom;
+  -ms-interpolation-mode: bicubic;
+}
+a img { border: none; }
+svg:not(:root) { overflow: hidden; }
+
+q, blockquote { quotes: none; }
+q:before, q:after,
+blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+ol,
+ul { list-style: none; }
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+}
+
+:focus { outline: 0; }
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+select::-moz-focus-inner {
+  padding: 0;
+  border: none;
+}
+
+a { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+a,
+a:hover { text-decoration: none; }
+
+audio:not([controls]) { display: none; }
+[hidden] { display: none !important; }
+
+
+/*=== Responsive
+==============================================================================================*/
+@mixin respond($min: 0, $max: 0) {
+  @if $max != 0 and $min == 0 {
+    @media only screen and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == 0 {
+    @media only screen and (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+}
+@mixin respond-v($min: 0, $max: 0) {
+  @if $max != 0 and $min == 0 {
+    @media only screen and (max-height: $max) {
+      @content;
+    }
+  } @else if $max == 0 {
+    @media only screen and (min-height: $min) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-height: $min) and (max-height: $max) {
+      @content;
+    }
+  }
+}
+
+
+/*=== Fonts
+==============================================================================================*/
+@font-face {
+  font-family: 'gt-haptik';
+  src: url('fonts/gt-haptik/gt-haptik-regular-webfont.eot');
+  src:
+    url('fonts/gt-haptik/gt-haptik-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/gt-haptik/gt-haptik-regular-webfont.woff2') format('woff2'),
+    url('fonts/gt-haptik/gt-haptik-regular-webfont.woff') format('woff'),
+    url('fonts/gt-haptik/gt-haptik-regular-webfont.ttf') format('truetype'),
+    url('fonts/gt-haptik/gt-haptik-regular-webfont.svg#medium') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/*=== Color
+==============================================================================================*/
+$black900: #d9dee0;
+$black300: #414343;
+$blue: #5acae2;
+
+$ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+
+
+/*=== Body
+==============================================================================================*/
+html, body {
+  /* overflow: hidden; */
+}
+
+body {
+  background: #fff;
+  font: 12px/1.57 'gt-haptik', Arial, Helvetica;
+  color: $black900;
+  cursor: default;
+  width: 100%;
+  box-sizing: border-box;
+  font-smoothing: antialiased;
+  user-select: none;
+  text-align: center;
+}
+
+
+/*=== Container
+==============================================================================================*/
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  min-height: 100vh;
+  text-align: left;
+  margin: 0 auto;
+
+  @include respond(0, 640px) {
+    width: 80%;
+  }
+
+  > h1 {
+    flex-shrink: 1;
+    padding-top: 11vh;
+
+    img {
+      display: block;
+    }
+
+    @media screen and (orientation: portrait) {
+      @include respond(0, 640px) {
+        img {
+          width: 30vw !important;
+          height: auto !important;
+        }
+      }
+    }
+    @media screen and (orientation: landscape) {
+      @include respond-v(0, 640px) {
+        img {
+          width: 30vh !important;
+          height: auto !important;
+        }
+      }
+    }
+  }
+
+  > p {
+    flex-shrink: 1;
+    padding-bottom: 11vh;
+    font-size: 11px;
+
+    @include respond(0, 640px) {
+      flex-direction: column;
+
+      b {
+        display: block;
+        margin-top: 20px;
+      }
+    }
+    @media screen and (orientation: portrait) {
+      @include respond(0, 640px) {
+        img {
+          display: block;
+          width: 14.5vw !important;
+          height: auto !important;
+        }
+      }
+    }
+    @media screen and (orientation: landscape) {
+      @include respond-v(0, 640px) {
+        img {
+          display: block;
+          width: 14.5vh !important;
+          height: auto !important;
+        }
+      }
+    }
+
+    @include respond(640px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      b {
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 1px;
+          height: 24px;
+          background: $black900;
+          vertical-align: middle;
+          margin: 0 20px;
+        }
+      }
+    }
+  }
+
+  > .main {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 0;
+
+    > ul {
+      > li {
+        font-size: 80px;
+
+        @media screen and (orientation: portrait) {
+          @include respond(0, 1333px) {
+            font-size: 6vw;
+          }
+        }
+        @media screen and (orientation: landscape) {
+          @include respond-v(0, 1333px) {
+            font-size: 6vh;
+          }
+        }
+
+        a {
+          position: relative;
+          display: block;
+          color: $black300;
+
+          opacity: 0;
+          transform: translateX(-50%);
+
+          animation: text-in;
+          animation-duration: .8s;
+          animation-fill-mode: forwards;
+          animation-timing-function: $ease-out-expo;
+
+          i {
+            color: $black900;
+            transition: color .3s $ease-out-expo;
+          }
+
+          &:hover {
+            i {
+              color: $blue;
+            }
+          }
+        }
+
+        &:nth-child(1) a {
+          animation-delay: calc(.05s * 0);
+        }
+        &:nth-child(2) a {
+          animation-delay: calc(.05s * 1);
+        }
+        &:nth-child(3) a {
+          animation-delay: calc(.05s * 4);
+        }
+        &:nth-child(4) a {
+          animation-delay: calc(.05s * 9);
+        }
+      }
+    }
+  }
+}
+
+@keyframes text-in {
+  50% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
