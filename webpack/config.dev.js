@@ -10,7 +10,7 @@ module.exports = {
   context: path.resolve(__dirname, '../src'),
   entry: [
     'webpack-dev-server/client?' + DEV_SERVER,
-    'main.js',
+    './main.js',
   ],
   resolve: {
     extensions: ['', '.js', 'index.js'],

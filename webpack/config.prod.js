@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'eval',
   context: path.resolve(__dirname, '../src'),
   entry: [
-    'main.js',
+    './main.js',
   ],
   resolve: {
     extensions: ['', '.js', 'index.js'],
