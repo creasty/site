@@ -83,18 +83,16 @@ audio:not([controls]) { display: none; }
 
 /*=== Responsive
 ==============================================================================================*/
-@mixin respond($max: 0, $min: 0) {
+@mixin respond($min: 0, $max: 0) {
   @if $max != 0 and $min == 0 {
     @media only screen and (max-width: $max) {
       @content;
     }
-  }
-  @else if $max == 0{
+  } @else if $max == 0 {
     @media only screen and (min-width: $min) {
       @content;
     }
-  }
-  @else {
+  } @else {
     @media only screen and (min-width: $min) and (max-width: $max) {
       @content;
     }
@@ -130,8 +128,7 @@ $ease-out-expo: cubic-bezier(.19, 1, .22, 1);
 /*=== Body
 ==============================================================================================*/
 html, body {
-  overflow: hidden;
-  height: 100%;
+  /* overflow: hidden; */
 }
 
 body {
@@ -139,11 +136,7 @@ body {
   font: 12px/1.57 'gt-haptik', Arial, Helvetica;
   color: $black900;
   cursor: default;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   box-sizing: border-box;
   font-smoothing: antialiased;
   user-select: none;
@@ -157,32 +150,61 @@ body {
   display: flex;
   flex-direction: column;
   width: 65%;
-  height: 100%;
+  min-height: 100vh;
   text-align: left;
   margin: 0 auto;
 
   > h1 {
     flex-shrink: 1;
-    padding-top: 166px;
+    padding-top: 11vh;
+
+    img {
+      display: block;
+    }
+
+    @include respond(0, 640px) {
+      img {
+        width: 30vw !important;
+        height: auto !important;
+      }
+    }
   }
 
   > p {
-    display: flex;
     flex-shrink: 1;
-    padding-bottom: 166px;
-    flex-direction: row;
-    align-items: center;
+    padding-bottom: 11vh;
     font-size: 11px;
 
-    b {
-      &:before {
-        content: "";
-        display: inline-block;
-        width: 1px;
-        height: 24px;
-        background: $black900;
-        vertical-align: middle;
-        margin: 0 20px;
+    @include respond(0, 640px) {
+      flex-direction: column;
+
+      img {
+        display: block;
+        width: 14.5vw !important;
+        height: auto !important;
+      }
+
+      b {
+        display: block;
+        margin-top: 20px;
+      }
+    }
+
+    @include respond(640px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      b {
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 1px;
+          height: 24px;
+          background: $black900;
+          vertical-align: middle;
+          margin: 0 20px;
+        }
       }
     }
   }
@@ -192,10 +214,15 @@ body {
     flex-grow: 1;
     flex-direction: row;
     align-items: center;
+    padding: 20px 0;
 
     > ul {
       > li {
         font-size: 80px;
+
+        @include respond(0, 1333px) {
+          font-size: 6vw;
+        }
 
         a {
           position: relative;
