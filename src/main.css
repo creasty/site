@@ -124,6 +124,8 @@ $black900: #d9dee0;
 $black300: #414343;
 $blue: #67d0ee;
 
+$ease-out-expo: cubic-bezier(.19, 1, .22, 1);
+
 
 /*=== Body
 ==============================================================================================*/
@@ -192,7 +194,6 @@ body {
     align-items: center;
 
     > ul {
-
       > li {
         font-size: 80px;
 
@@ -200,6 +201,15 @@ body {
           position: relative;
           display: block;
           color: $black300;
+
+          opacity: 0;
+          transform: translateX(-50%);
+          transition: color .3s $ease-out-expo;
+
+          animation: text-in;
+          animation-duration: .8s;
+          animation-fill-mode: forwards;
+          animation-timing-function: $ease-out-expo;
 
           &:hover {
             color: $blue;
@@ -209,16 +219,30 @@ body {
             color: $black900;
           }
         }
+
+        &:nth-child(1) a {
+          animation-delay: calc(.05s * 0);
+        }
+        &:nth-child(2) a {
+          animation-delay: calc(.05s * 1);
+        }
+        &:nth-child(3) a {
+          animation-delay: calc(.05s * 4);
+        }
+        &:nth-child(4) a {
+          animation-delay: calc(.05s * 9);
+        }
       }
     }
   }
 }
 
 @keyframes text-in {
-  0% {
-    transform: translateX(-100%);
+  50% {
+    opacity: 0;
   }
   100% {
     transform: translateX(0);
+    opacity: 1;
   }
 }
