@@ -98,6 +98,21 @@ audio:not([controls]) { display: none; }
     }
   }
 }
+@mixin respond-v($min: 0, $max: 0) {
+  @if $max != 0 and $min == 0 {
+    @media only screen and (max-height: $max) {
+      @content;
+    }
+  } @else if $max == 0 {
+    @media only screen and (min-height: $min) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-height: $min) and (max-height: $max) {
+      @content;
+    }
+  }
+}
 
 
 /*=== Fonts
@@ -162,10 +177,20 @@ body {
       display: block;
     }
 
-    @include respond(0, 640px) {
-      img {
-        width: 30vw !important;
-        height: auto !important;
+    @media screen and (orientation: portrait) {
+      @include respond(0, 640px) {
+        img {
+          width: 30vw !important;
+          height: auto !important;
+        }
+      }
+    }
+    @media screen and (orientation: landscape) {
+      @include respond-v(0, 640px) {
+        img {
+          width: 30vh !important;
+          height: auto !important;
+        }
       }
     }
   }
@@ -178,15 +203,27 @@ body {
     @include respond(0, 640px) {
       flex-direction: column;
 
-      img {
-        display: block;
-        width: 14.5vw !important;
-        height: auto !important;
-      }
-
       b {
         display: block;
         margin-top: 20px;
+      }
+    }
+    @media screen and (orientation: portrait) {
+      @include respond(0, 640px) {
+        img {
+          display: block;
+          width: 14.5vw !important;
+          height: auto !important;
+        }
+      }
+    }
+    @media screen and (orientation: landscape) {
+      @include respond-v(0, 640px) {
+        img {
+          display: block;
+          width: 14.5vh !important;
+          height: auto !important;
+        }
       }
     }
 
@@ -220,8 +257,15 @@ body {
       > li {
         font-size: 80px;
 
-        @include respond(0, 1333px) {
-          font-size: 6vw;
+        @media screen and (orientation: portrait) {
+          @include respond(0, 1333px) {
+            font-size: 6vw;
+          }
+        }
+        @media screen and (orientation: landscape) {
+          @include respond-v(0, 1333px) {
+            font-size: 6vh;
+          }
         }
 
         a {
