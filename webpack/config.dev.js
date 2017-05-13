@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|mp4|eot|woff2?|ttf|svg)$/,
-        loader: 'file?name=[path][name].[ext]',
+        loader: 'file?name=[name].[ext]',
         exclude: /node_modules/,
       },
     ],
