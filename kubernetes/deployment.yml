@@ -24,7 +24,7 @@ spec:
           readinessProbe:
             httpGet:
               path: ping
-              port: 80
+              port: 8080
             timeoutSeconds: 100
             failureThreshold: 20
           ports:
