@@ -49,7 +49,7 @@ module.exports = {
         ]
       },
       {
-        test: /.(png|jpg|gif|mp4)$/,
+        test: /\.(png|jpg|gif|mp4|eot|woff2?|ttf|svg)$/,
         loader: 'file?name=[path][name].[ext]',
         exclude: /node_modules/,
       },
