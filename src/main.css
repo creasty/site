@@ -81,6 +81,27 @@ audio:not([controls]) { display: none; }
 [hidden] { display: none !important; }
 
 
+/*=== Responsive
+==============================================================================================*/
+@mixin respond($max: 0, $min: 0) {
+  @if $max != 0 and $min == 0 {
+    @media only screen and (max-width: $max) {
+      @content;
+    }
+  }
+  @else if $max == 0{
+    @media only screen and (min-width: $min) {
+      @content;
+    }
+  }
+  @else {
+    @media only screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+}
+
+
 /*=== Fonts
 ==============================================================================================*/
 @font-face {
@@ -97,6 +118,13 @@ audio:not([controls]) { display: none; }
 }
 
 
+/*=== Color
+==============================================================================================*/
+$black900: #d9dee0;
+$black300: #414343;
+$blue: #67d0ee;
+
+
 /*=== Body
 ==============================================================================================*/
 html, body {
@@ -106,8 +134,8 @@ html, body {
 
 body {
   background: #fff;
-  font: 12px/1.7 'gt-haptik', Arial, Helvetica;
-  color: #616d71;
+  font: 12px/1.57 'gt-haptik', Arial, Helvetica;
+  color: $black900;
   cursor: default;
   position: absolute;
   top: 0;
@@ -117,4 +145,80 @@ body {
   box-sizing: border-box;
   font-smoothing: antialiased;
   user-select: none;
+  text-align: center;
+}
+
+
+/*=== Container
+==============================================================================================*/
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  height: 100%;
+  text-align: left;
+  margin: 0 auto;
+
+  > h1 {
+    flex-shrink: 1;
+    padding-top: 166px;
+  }
+
+  > p {
+    display: flex;
+    flex-shrink: 1;
+    padding-bottom: 166px;
+    flex-direction: row;
+    align-items: center;
+    font-size: 11px;
+
+    b {
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 1px;
+        height: 24px;
+        background: $black900;
+        vertical-align: middle;
+        margin: 0 20px;
+      }
+    }
+  }
+
+  > .main {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+
+    > ul {
+
+      > li {
+        font-size: 80px;
+
+        a {
+          position: relative;
+          display: block;
+          color: $black300;
+
+          &:hover {
+            color: $blue;
+          }
+
+          i {
+            color: $black900;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes text-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
