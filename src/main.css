@@ -275,19 +275,21 @@ body {
 
           opacity: 0;
           transform: translateX(-50%);
-          transition: color .3s $ease-out-expo;
 
           animation: text-in;
           animation-duration: .8s;
           animation-fill-mode: forwards;
           animation-timing-function: $ease-out-expo;
 
-          &:hover {
-            color: $blue;
-          }
-
           i {
             color: $black900;
+            transition: color .3s $ease-out-expo;
+          }
+
+          &:hover {
+            i {
+              color: $blue;
+            }
           }
         }
 
