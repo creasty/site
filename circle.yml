@@ -6,7 +6,7 @@ machine:
     - docker
 
   environment:
-    PATH:        $PATH:/opt/google-cloud-sdk/bin
+    PATH:        $PATH:
     REPO:        creasty/site
     K8S_VERSION: v1.5.7
     BRANCH:      $(echo $CIRCLE_BRANCH | sed -e 's/[^a-zA-Z0-9]/_/g')
@@ -24,19 +24,14 @@ dependencies:
   pre:
     - |
       set -e
-      curl -o ./kubectl "https://storage.googleapis.com/kubernetes-release/release/${K8S_VERSION}/bin/linux/amd64/kubectl"
-      chmod +x ./kubectl
-
-    - |
-      set -e
-      sudo gcloud --quiet components update
-      sudo gcloud --quiet components update kubectl
+      sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+      sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
       echo "$GOOGLE_SERVICE_CRED" | base64 --decode -i > "${HOME}/account-auth.json"
-      sudo gcloud auth activate-service-account --key-file "${HOME}/account-auth.json"
-      sudo gcloud config set project "$PROJECT_NAME"
-      sudo gcloud config set compute/zone "$CLOUDSDK_COMPUTE_ZONE"
-      sudo gcloud --quiet config set container/cluster "$CLUSTER_NAME"
-      sudo gcloud --quiet container clusters get-credentials "$CLUSTER_NAME"
+      sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file "${HOME}/account-auth.json"
+      sudo /opt/google-cloud-sdk/bin/gcloud config set project "$PROJECT_NAME"
+      sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone "$CLOUDSDK_COMPUTE_ZONE"
+      sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster "$CLUSTER_NAME"
+      sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials "$CLUSTER_NAME"
 
   override:
     - yarn
