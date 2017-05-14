@@ -9,7 +9,7 @@ echo "yarn build"
 yarn build
 
 echo "move index.html"
-mv public/aseets/index.html public/index.html
+mv public/assets/index.html public/index.html
 
 echo "docker login"
 docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
