@@ -6,7 +6,6 @@ machine:
     - docker
 
   environment:
-    PATH:        $PATH:
     REPO:        creasty/site
     K8S_VERSION: v1.5.7
     BRANCH:      $(echo $CIRCLE_BRANCH | sed -e 's/[^a-zA-Z0-9]/_/g')
