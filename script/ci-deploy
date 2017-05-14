@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+cd "$(dirname $0)/.."
+
+[ "$TRAVIS_BRANCH" == "master" ] || exit 0
+
+echo "Deploy ${REPO}:${TAG}"
+cat kubernetes/deployment.yml \
+  | sed "s,latest,${TAG},g" \
+  | kubectl replace -f - --server="${K8S_SERVER}" --token="${K8S_TOKEN}" --insecure-skip-tls-verify=true --record
