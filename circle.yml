@@ -38,8 +38,9 @@ dependencies:
 test:
   override:
     - script/ci-build
+    - script/ci-deploy
 
 deployment:
   production:
-    branch: ci
+    branch: master
     commands: script/ci-deploy
