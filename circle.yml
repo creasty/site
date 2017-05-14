@@ -1,7 +1,7 @@
 machine:
   environment:
     REPO:        creasty/site
-    K8S_VERSION: v1.4.5
+    K8S_VERSION: v1.5.7
     BRANCH:      $(echo $TRAVIS_BRANCH | sed -e "s,/,_,g;")
     TAG:         $BRANCH-${TRAVIS_COMMIT::8}
     # DOCKER_EMAIL
