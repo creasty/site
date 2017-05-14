@@ -1,0 +1,30 @@
+machine:
+  environment:
+    REPO:        creasty/site
+    K8S_VERSION: v1.4.5
+    BRANCH:      $(echo $TRAVIS_BRANCH | sed -e "s,/,_,g;")
+    TAG:         $BRANCH-${TRAVIS_COMMIT::8}
+    # DOCKER_EMAIL
+    # DOCKER_PASSWORD
+    # DOCKER_USERNAME
+    # K8S_SERVER
+    # K8S_TOKEN
+
+dependencies:
+  cache_directories:
+    - node_modules
+  pre:
+    - |
+      set -e
+
+      curl -o ./kubectl "https://storage.googleapis.com/kubernetes-release/release/${K8S_VERSION}/bin/linux/amd64/kubectl"
+      chmod +x ./kubectl
+
+test:
+  override:
+    - script/ci-build
+
+deployment:
+  production:
+    branch: master
+    commands: script/ci-deploy
