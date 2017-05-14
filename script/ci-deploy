@@ -10,4 +10,4 @@ cd "$(dirname $0)/.."
 echo "Deploy ${REPO}:${TAG}"
 cat kubernetes/deployment.yml \
   | sed "s,latest,${TAG},g" \
-  | kubectl replace -f - --record
+  | sudo kubectl replace -f - --record
