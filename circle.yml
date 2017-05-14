@@ -42,4 +42,5 @@ test:
 deployment:
   production:
     branch: master
-    commands: script/ci-deploy
+    commands:
+      - script/ci-deploy
