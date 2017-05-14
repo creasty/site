@@ -34,12 +34,16 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
+        loaders: [
+          'uglify',
+          'babel',
+        ],
         exclude: /node_modules/,
       },
       {
         test: /\.(css|scss)$/,
         loader: ExtractTextPlugin.extract('style', [
+          'uglify',
           'css',
           'sass',
           'import-glob-loader',
@@ -59,9 +63,9 @@ module.exports = {
   'uglify-loader': {
     compress: true,
     minimize: true,
-    sourceMap: true,
+    sourceMap: false,
     compressor: {
-      warnings: false
+      warnings: false,
     }
   }
 };
