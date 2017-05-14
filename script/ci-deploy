@@ -5,7 +5,7 @@ set -o pipefail
 
 cd "$(dirname $0)/.."
 
-[ "$TRAVIS_BRANCH" == "master" ] || exit 0
+[ "$BRANCH" == "master" ] || exit 0
 
 echo "Deploy ${REPO}:${TAG}"
 cat kubernetes/deployment.yml \

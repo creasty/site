@@ -8,8 +8,8 @@ machine:
   environment:
     REPO:        creasty/site
     K8S_VERSION: v1.5.7
-    BRANCH:      $(echo $TRAVIS_BRANCH | sed -e 's/[^a-zA-Z0-9]/_/g')
-    TAG:         $BRANCH-${TRAVIS_COMMIT::8}
+    BRANCH:      $(echo $CIRCLE_BRANCH | sed -e 's/[^a-zA-Z0-9]/_/g')
+    TAG:         $CIRCLE_BRANCH-${CIRCLE_SHA1::8}
     # K8S_SERVER
     # K8S_TOKEN
 

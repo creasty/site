@@ -20,7 +20,7 @@ docker build -t $REPO:$TAG .
 echo "docker push ${REPO}:${TAG}"
 docker push $REPO:$TAG
 
-if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+if [ "$BRANCH" == "master" ]; then
   echo "docker tag ${REPO}:${TAG} ${REPO}:latest"
   docker tag $REPO:$TAG $REPO:latest
 
