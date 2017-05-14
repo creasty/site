@@ -38,7 +38,6 @@ dependencies:
 test:
   override:
     - script/ci-build
-    - script/ci-deploy
 
 deployment:
   production:
