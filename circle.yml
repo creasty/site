@@ -41,4 +41,5 @@ test:
 
 deployment:
   production:
+    branch: ci
     commands: script/ci-deploy
