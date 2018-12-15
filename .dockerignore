@@ -1,3 +1,9 @@
 *
-!nginx/*
+!src/
 !public/
+!webpack/
+!.babelrc
+!package.json
+!yarn.lock
+!nginx/
+!script/
